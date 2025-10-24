@@ -25,8 +25,9 @@ def generate_simple_svg(m: Measurements):
 
 @app.post("/generate")
 async def generate(req: GenerateRequest, request: Request):
-    key = request.headers.get("x-api-key", "")
+    key = request.headers.get("x-api-key", "my-secret-key")
     if key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
     svg = generate_simple_svg(req.measurements)
     svg_encoded = urllib.parse.quote(svg, safe='')
+
